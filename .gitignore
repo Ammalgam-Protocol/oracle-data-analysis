@@ -2,4 +2,5 @@
 .ipynb_checkpoints
 data/
 test/local_node/state/
-
+__pycache__
+venv/
