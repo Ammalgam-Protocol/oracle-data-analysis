@@ -1,3 +1,4 @@
+import os
 import logging
 import sys
 import unittest
@@ -23,6 +24,11 @@ class TestScannerWithNode(TestCase, ScannerRunner):
     NODE_URL = "http://1.1.1.1:1111"
     ABI = UNISWAP_V2_PAIR_ABI
 
+    def setUp(self):
+        # Create the directory if it doesn't exist
+        if not os.path.exists('./state'):
+            os.makedirs('./state')
+
     def test_web_3_sync(self):
         w3 = Web3(Web3.HTTPProvider(self.NODE_URL, request_kwargs={'timeout': 60}))
         self.assertTrue(w3.isConnected())
@@ -43,12 +49,6 @@ class TestScannerWithNode(TestCase, ScannerRunner):
         swaps = event_filter.get_all_entries()
         print(len(swaps))
         print(swaps[0]["args"].keys())
-
-    @unittest.skip("Using as a work space, runs in 12 hours for ETH-POOL pair")
-    def test_scanner_runner(self):
-
-        ScannerRunner.run_scanner(
-            "test-state.json", self.FIRST_BLOCK, self.NODE_URL, self.ABI, self.ETH_POOL_UNI_V2_CONTRACT_ADDRESS)
 
     @unittest.skip("Using as a work space")
     def testReadJsonState(self):

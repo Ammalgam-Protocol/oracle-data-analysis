@@ -11,7 +11,7 @@ from src.local_node.event_scanner import JSONifiedState, EventScanner
 
 class ScannerRunner:
     @staticmethod
-    def run_scanner(file_name, first_block, node_url, abi, uni_pair_contract_address):
+    def run_scanner(file_name, first_block, node_url, abi, uni_pair_contract_address, last_block=-1):
         provider = Web3.HTTPProvider(node_url, request_kwargs={'timeout': 60})
         provider.middlewares.clear()
         web3 = Web3(provider)
@@ -20,13 +20,21 @@ class ScannerRunner:
         state = JSONifiedState(file_name)
         state.restore()
         scanner = EventScanner(
-            web3=web3, contract=pair_contact, state=state, events=[pair_contact.events.Sync, pair_contact.events.Swap],
-            filters={"address": uni_pair_contract_address}, max_chunk_scan_size=10000)
+            web3=web3, 
+            contract=pair_contact, 
+            state=state, 
+            events=[pair_contact.events.Sync, pair_contact.events.Swap],
+            filters={"address": uni_pair_contract_address},
+            max_chunk_scan_size=10000)
+        
         chain_reorg_safety_blocks = 10
         scanner.delete_potentially_forked_block_data(state.get_last_scanned_block() - chain_reorg_safety_blocks)
         start_block = max(state.get_last_scanned_block() - chain_reorg_safety_blocks, first_block)
         # TODO(WF): add arg to overwrite
-        end_block = scanner.get_suggested_scan_end_block()
+        if last_block <0:
+            end_block = scanner.get_suggested_scan_end_block()
+        else:
+            end_block = last_block    
         blocks_to_scan = end_block - start_block
         print(f"Scanning events from blocks {start_block} - {end_block}")
         start = time.time()
