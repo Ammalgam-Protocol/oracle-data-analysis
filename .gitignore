@@ -2,5 +2,18 @@
 .ipynb_checkpoints
 data/
 test/local_node/state/
-__pycache__
+
+# Python Env Stuff
+
+.venv/
 venv/
+__pycache__/
+.pytest_cache
+
+# Direnv Stuff
+
+.env
+.envrc
+
+#
+
