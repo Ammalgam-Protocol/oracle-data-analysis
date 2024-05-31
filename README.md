@@ -23,9 +23,41 @@ poetry run jupyter-lab
 
 from jupyter-lab you can navigate to the [notebook](data-analysis.ipynb). 
 
-## Constructing data for a new pair
 
-Code to scrape data is not production quality, it was assembled quickly and a testing framework was
-used to execute the process. Data can be recreated using the tests in 
-[test_scanner_with_node.py](test/local_node/test_scanner_with_node.py). You will need to fill in
-the node url, uniswap v2 pair address, and the block the pair was created (to save on time). 
+## Overview - Scanner Script Runner
+
+This utility is designed to scan Uniswap V2 events within a specified range of Ethereum blocks and output the results to a local JSON file. This file can then be used for further processing
+
+## Usage
+
+There is a script runner file located here [run_scanner](src/cmd/run_scanner.py). To run the scanner utility, use the following command:
+
+```bash
+./run_scanner.py -c ./uni-eth.yml
+```
+
+## Configuration File (uni-eth.yml)
+
+```yaml
+# Uniswap V2 Configuration File
+
+# Description: Configuration file for the Uniswap V2 scanner utility.
+# This file specifies parameters such as the range of blocks to scan,
+# the Ethereum node URL, the contract address, and the output filename.
+
+blocks_to_scan:
+  # Specifies the range of blocks to scan.
+  # 'first' denotes the starting block number.
+  # 'last' denotes the ending block number.
+  first: 19008564
+  last: 19550182
+
+# Specifies the URL of the Ethereum node API to use.
+# If the 'NODE_URL' environment variable is set, it will override this value.
+node_url: ${NODE_URL}
+
+# Specifies the address of the Uniswap V2 contract.
+contract_address: "0xd3d2E2692501A5c9Ca623199D38826e513033a17"
+
+# Specifies the name of the output JSON file.
+output_filename: uni_eth_state_v0.json
