@@ -15,5 +15,6 @@ __pycache__/
 .env
 .envrc
 
-#
+# Dont save the state to Github. This might be a mistake?
 
+state/
