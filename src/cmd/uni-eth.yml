@@ -1,0 +1,14 @@
+# Uniswap V2 UNI-ETH
+# https://etherscan.io/address/0xd3d2E2692501A5c9Ca623199D38826e513033a17
+
+
+
+blocks_to_scan:
+  first: 19008564
+  last: 19550182
+# API to use to read the data from 
+node_url: ${NODE_URL}
+contract_address: "0xd3d2E2692501A5c9Ca623199D38826e513033a17"
+output_filename: uni_eth_state_v0.json
+
+
