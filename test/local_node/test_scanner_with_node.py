@@ -2,11 +2,16 @@ import os
 import logging
 import sys
 import unittest
+import hashlib
+import tempfile
 from unittest import TestCase
 
 from eth_typing import Address
 from pandas import DataFrame
+from pandas.util.testing import assert_frame_equal
 from web3 import Web3
+import pandas as pd
+
 
 from src.local_node.event_scanner import JSONifiedState
 from src.local_node.process_state_to_df import ProcessStateToDF
@@ -30,7 +35,9 @@ class TestScannerWithNode(TestCase, ScannerRunner):
             os.makedirs('./state')
 
     def test_web_3_sync(self):
-        w3 = Web3(Web3.HTTPProvider(self.NODE_URL, request_kwargs={'timeout': 60}))
+
+
+        w3 = Web3(Web3.HTTPProvider(os.getenv('NODE_URL', self.NODE_URL), request_kwargs={'timeout': 60}))
         self.assertTrue(w3.isConnected())
 
         contract = w3.eth.contract(address=self.ETH_POOL_UNI_V2_CONTRACT_ADDRESS, abi=self.ABI)
@@ -50,15 +57,57 @@ class TestScannerWithNode(TestCase, ScannerRunner):
         print(len(swaps))
         print(swaps[0]["args"].keys())
 
-    @unittest.skip("Using as a work space")
-    def testReadJsonState(self):
+
+    def test_read_json_state_and_save_to_csv(self):
         json_state = JSONifiedState("test-state.json")
         json_state.restore()
         state = json_state.state
         state_df = ProcessStateToDF.process_state(state["blocks"], self)
 
+        # Check if DataFrame is created
+        self.assertTrue(isinstance(state_df, DataFrame))
+        
+        # Save DataFrame to CSV file
+        with tempfile.NamedTemporaryFile(suffix='.csv', delete=False) as temp_file:
+            csv_filename = temp_file.name
+            state_df.to_csv(csv_filename)
+            # Check if CSV file is created
+            self.assertTrue(os.path.exists(csv_filename))
+            # Check if checksum matches
+            
+        # Calculate checksum of the CSV file
+        expected_checksum = "e6078227af70572b2b4f89e44d60eb2d"  # Generate using : md5sum file.csv
+        with open(csv_filename, "rb") as f:
+            csv_checksum = hashlib.md5(f.read()).hexdigest()
+            self.assertEqual(csv_checksum, expected_checksum, "Checksums do not match")
+
+
+    def test_read_json_state_and_pickle(self):
+        json_state = JSONifiedState("test-state.json")
+        json_state.restore()
+        state = json_state.state
+        state_df = ProcessStateToDF.process_state(state["blocks"], self)
+
+        # Check if DataFrame is created
         self.assertTrue(isinstance(state_df, DataFrame))
 
-        # store file as needed.
-        # state_df.to_csv("state/0x85Cb0baB616Fe88a89A35080516a8928F38B518b_df.csv")
-        state_df.to_pickle("state/0x85Cb0baB616Fe88a89A35080516a8928F38B518b_df.pkl")
+         # Save DataFrame to CSV file
+        with tempfile.NamedTemporaryFile(suffix='.pkl', delete=False) as temp_file:
+            pkl_filename = temp_file.name
+            state_df.to_pickle(pkl_filename)
+            # Check if CSV file is created
+            self.assertTrue(os.path.exists(pkl_filename))
+            # Check if checksum matches
+            
+        # Calculate checksum of the CSV file
+        expected_checksum = "9b59cb3e402118452023c6b44fc7146d"  # Generate using : md5sum file.csv
+        with open(pkl_filename, "rb") as f:
+            pkl_checksum = hashlib.md5(f.read()).hexdigest()
+            self.assertEqual(pkl_checksum, expected_checksum, "Checksums do not match")
+        
+       
+
+
+            
+
+
