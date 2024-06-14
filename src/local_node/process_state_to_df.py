@@ -29,7 +29,7 @@ class ProcessStateToDF:
         start = time.time()
         blocks = sorted(data.keys())
         progress_callback = cls.get_progress_callback(len(blocks))
-
+        print(f"data = {data}")
         for block in sorted(data.keys()):
             current_block = block
             progress_callback(current_block, 1)
@@ -63,6 +63,7 @@ class ProcessStateToDF:
                     msg = f'Unknown txns {txn_dict[txns.pop(0)]}'
                     error(msg)
                     test_self.fail(msg)
+        print(f"returing {reserve0} and {reserve1}")            
         return reserve0, reserve1
 
     @classmethod
