@@ -18,3 +18,5 @@ __pycache__/
 # Dont save the state to Github. This might be a mistake?
 
 state/
+
+.vscode/
