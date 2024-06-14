@@ -2,7 +2,12 @@
 
 # https://etherscan.io/address/0xd3d2E2692501A5c9Ca623199D38826e513033a17
 
+# Pair Tuple
+pair:
+  "0":"UNI" 
+  "1":"ETH"
 
+# Where to find the data
 
 blocks_to_scan:
   first: 19008564
@@ -10,6 +15,15 @@ blocks_to_scan:
 # API to use to read the data from 
 node_url: http://1.1.1.1:1111
 contract_address: "0xd3d2E2692501A5c9Ca623199D38826e513033a17"
+
+# Where to output the interim file
+
 output_filename: uni_eth_state_v0.json
 
+# Decimals that are stored on the block
+decimals:
+  UNI: 18
+  ETH: 18
+
+  
 
