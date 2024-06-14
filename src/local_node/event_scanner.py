@@ -337,8 +337,8 @@ class JSONifiedState(EventScannerState):
         try:
             self.state = json.load(open(self.path, "rt"))
             print(f"Restored the state, previously {self.state['last_scanned_block']} blocks have been scanned")
-        except (IOError, json.decoder.JSONDecodeError):
-            print("State starting from scratch")
+        except (IOError, json.decoder.JSONDecodeError) as e:
+            print(f"State starting from scratch {e}")
             self.reset()
 
     def save(self):
