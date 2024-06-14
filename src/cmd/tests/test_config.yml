@@ -1,0 +1,10 @@
+
+pair:
+  "0": "UNI"
+  "1": "USDC"
+
+decimals:
+  UNI: 18
+  USDC: 6
+
+output_filename: tests/test_state.json
