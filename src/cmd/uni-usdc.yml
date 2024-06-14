@@ -2,10 +2,7 @@
 # https://etherscan.io/address/0xEBFb684dD2b01E698ca6c14F10e4f289934a54D6
 
 
-# Pair Tuple
-pair:
-  - UNI 
-  - USDC
+
 
 # Where to find the data
 
@@ -20,7 +17,10 @@ contract_address: "0xEBFb684dD2b01E698ca6c14F10e4f289934a54D6"
 
 output_filename: uni_usdc_state_v0.json
 
-# Decimals that are stored on the block
+pair:
+  "0": "UNI"
+  "1": "USDC"
+
 decimals:
   UNI: 18
   USDC: 6
