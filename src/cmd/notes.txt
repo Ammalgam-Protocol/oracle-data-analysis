@@ -1,0 +1,13 @@
+price_change 
+relative price change - Delta new price compared old price : new_price - 1 / old_price  (ratio)
+
+(p_new - p_old)/p_old =
+
+Discrete Relative change =  (p_new - p_old)/p_old
+
+
+Continuous Relative Price = ln(p_new/p_old)
+
+logE = ln 
+
+

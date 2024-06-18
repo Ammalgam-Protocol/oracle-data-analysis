@@ -1,0 +1,19 @@
+
+
+How much did the price jump?
+How Fast did it jump - was it in 1 block or N blocks?
+
+Price can be manipulated,  - PRice is treated as a range. With liquidation, as what price in this range should you liquidate?
+
+Liquidation is like forced seliing. Liquidation 
+
+Lending Protocol will write a liquidation bot, and enchance and put their own logic on it. Liquidations are part of MEV, it happens against indiviuals.
+
+Outlier detection - this new price was recorded. We are only going to allow it to move about 10% by block. What are the parameters that we can block.
+ Just because that price movement is so large - it just 
+
+
+ How much debt will this be in a block?
+
+
+ ETH. 20% increase. - Look at how that happens. Need to model how much bad debt. Using different outlierr detection. 

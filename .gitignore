@@ -1,6 +1,5 @@
 .idea
 .ipynb_checkpoints
-data/
 test/local_node/state/
 
 # Python Env Stuff
